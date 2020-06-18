@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -16,10 +12,12 @@ namespace MessengerClient
     public partial class Form1 : Form
     {
         public delegate void AddListItem();
-        IPAddress ip = IPAddress.Parse("127.0.0.1");
-        IPEndPoint ep;
-        Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-        string currentChat;
+
+        private IPAddress ip = IPAddress.Parse("127.0.0.1");
+        private IPEndPoint ep;
+        private Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+        private string currentChat;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,7 +28,7 @@ namespace MessengerClient
             Task.Run(ReceiveMessage);
         }
 
-        void Register()
+        private void Register()
         {
             RegisterForm registerForm = new RegisterForm();
             registerForm.ShowDialog();
@@ -63,6 +61,7 @@ namespace MessengerClient
                 MessageBox.Show(ex.ToString());
             }
         }
+
         private void ReceiveMessage()
         {
             byte[] buffer = new byte[1024];
@@ -83,7 +82,7 @@ namespace MessengerClient
                     msg = System.Text.Encoding.Unicode.GetString(buffer, 0, l);
                     listBox2.Invoke((MethodInvoker)delegate { listBox2.Items.Remove(msg); });
                 }
-                else if(msg == "$213$%")
+                else if (msg == "$213$%")
                 {
                     l = s.Receive(buffer);
                     msg = System.Text.Encoding.Unicode.GetString(buffer, 0, l);
@@ -146,7 +145,7 @@ namespace MessengerClient
                             {
                                 char[] number = new char[20];
                                 mess = msg.Remove(msg.IndexOf('('));
-                                if(mess == msg)
+                                if (mess == msg)
                                 {
                                     msg.CopyTo(msg.IndexOf('(') + 1, number, 0, msg.IndexOf(')') - msg.IndexOf('(') - 1);
                                     string str = new string(number);
@@ -154,26 +153,27 @@ namespace MessengerClient
                                     i++;
                                     mess += "(" + i.ToString() + ")";
                                     j = listBox2.Items.IndexOf(item);
-                                    
+
                                     break;
                                 }
                             }
                             else
                             {
-                                if(msg == item.ToString())
+                                if (msg == item.ToString())
                                 {
                                     msg += "(1)";
                                     j = listBox2.Items.IndexOf(item);
                                 }
                             }
                         }
-                        if(mess != null)
+                        if (mess != null)
                         {
                             msg = mess;
                         }
-                        if(j >= 0)
+                        if (j >= 0)
                         {
-                            listBox2.Invoke((MethodInvoker)delegate {
+                            listBox2.Invoke((MethodInvoker)delegate
+                            {
                                 listBox2.Items.Insert(j, msg);
                             });
                         }
@@ -182,7 +182,7 @@ namespace MessengerClient
                 else listBox2.Invoke((MethodInvoker)delegate
                 {
                     listBox1.Items.Add(msg);
-                }) ;
+                });
             } while (true);
         }
 
@@ -232,9 +232,6 @@ namespace MessengerClient
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            
         }
     }
 }
-
