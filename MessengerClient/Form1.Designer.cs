@@ -54,7 +54,6 @@
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(166, 303);
             this.listBox2.TabIndex = 8;
-            this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             this.listBox2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox2_MouseDoubleClick);
             // 
             // label3
@@ -83,6 +82,7 @@
             this.messageContent.Size = new System.Drawing.Size(219, 66);
             this.messageContent.TabIndex = 12;
             this.messageContent.Text = "";
+            this.messageContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageContent_KeyDown);
             // 
             // groupBox1
             // 
